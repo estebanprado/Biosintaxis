@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioSintax - Plataforma de Aprendizaje Biológico</title>
+    <style>
+        /* General Styles & Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        /* Top Bar Navigation */
+        .navbar {
+            background-color: #1a365d;
+            padding: 12px 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 20px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #2b6cb0;
+            color: #ffffff;
+        }
+
+        /* Header Area */
+        .header-section {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: #1a365d;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .search-cell {
+            width: 300px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px 10px 36px;
+            border: 1px solid #cbd5e0;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #f7fafc;
+        }
+
+        .search-input:focus {
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+            background-color: #ffffff;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 14px;
+        }
+
+        /* Main Dashboard Layout */
+        .main-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 24px;
+        }
+
+        /* Columnas */
+        .left-column {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .right-column {
+            width: 55%;
+        }
+
+        /* Acordeones (Paneles) */
+        .panel-container {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background-color: #edf2f7;
+            padding: 14px 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #2d3748;
+            border-bottom: 1px solid #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+
+        .panel-header:hover {
+            background-color: #e2e8f0;
+        }
+
+        .panel-header .arrow {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        /* Estado colapsado del panel */
+        .panel-container.collapsed .panel-body {
+            display: none;
+        }
+        
+        .panel-container.collapsed .panel-header {
+            border-bottom: none;
+        }
+
+        .panel-container.collapsed .arrow {
+            transform: rotate(-90deg);
+        }
+
+        .panel-body {
+            padding: 24px;
+            background: #ffffff;
+        }
+
+        .content-text {
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .content-text ul {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        /* Right Side: Media & Summaries */
+        .section-title {
+            font-size: 22px;
+            color: #1a365d;
+            margin-bottom: 14px;
+            font-weight: 600;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        /* Image Container (Replacing Video) */
+        .image-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            max-height: 350px;
+            object-fit: contain;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        /* ==========================================
+           RESPONSIVE DESIGN (MEDIA QUERIES)
+           ========================================== */
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+                padding: 0 15px;
+            }
+
+            .left-column, .right-column {
+                width: 100%;
+            }
+
+            .header-section {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .brand-title {
+                font-size: 32px;
+            }
+
+            .search-cell {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación superior basada en el mockup -->
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="index.html" class="active">Index</a>
+            <a href="mitosis.html">Mitosis</a>
+            <a href="ciclocelular.html">Ciclo celular</a>
+            <a href="metabolismo.html">Metabolismo</a>
+            <a href="respiraciones.html">Respiración</a>
+            <a href="fotosintesis.html">Fotosíntesis</a>
+        </div>
+    </div>
+
+    <!-- Encabezado con Título y Buscador -->
+    <div class="header-section">
+        <div class="brand-cell">
+            <h1 class="brand-title">BioSintax</h1>
+        </div>
+        <div class="search-cell">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Buscar concepto...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal Dashboard -->
+    <div class="main-container">
+        
+        <!-- Columna Izquierda: Paneles de Información -->
+        <div class="left-column">
+            
+            <!-- Panel 1 (Activo) -->
+            <div class="panel-container" id="panel-1">
+                <div class="panel-header" onclick="togglePanel('panel-1')">
+                    <span>¿De que trata este sitio web?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    <p class="content-text">
+                        BioSintax es un espacio educativo dedicado a explicar de manera clara y sencilla los principales procesos y conceptos de la biología. En esta página podrás aprender sobre temas como la fotosíntesis, el ciclo celular, la mitosis, el metabolismo y la respiración aeróbica y anaeróbica, comprendiendo cómo estos procesos son esenciales para el funcionamiento de los seres vivos. Nuestro objetivo es facilitar el aprendizaje mediante información confiable, organizada y accesible para despertar el interés por la biología y fortalecer el conocimiento científico.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Panel 2 (Colapsado por defecto) -->
+            <div class="panel-container collapsed" id="panel-2">
+                <div class="panel-header" onclick="togglePanel('panel-2')">
+                    <span>¿Quienes somos?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    <p class="content-text">
+                        Somos un grupo de estudiantes del 10mo grado ‘’B‘’ del colegio Lima High School (Maria Alvarado) llamado BioSintax. Nosotros pertenecemos al grupo científico matemático. Nos preocupamos por el aprendizaje y el desarrollo de la persona de manera academicamente.
+                    </p>
+                    <p class="content-text">
+                        <strong>Nuestros integrantes son:</strong>
+                    </p>
+                    <ul class="content-text">
+                        <li>Esteban Prado</li>
+                        <li>Diego Cutipé</li>
+                        <li>Camila Chinchón</li>
+                        <li>Cristina Ramirez</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Panel 3 (Colapsado por defecto) -->
+            <div class="panel-container collapsed" id="panel-3">
+                <div class="panel-header" onclick="togglePanel('panel-3')">
+                    <span>¿Porque leer esta pagina?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    <p class="content-text">
+                        Esta página te ayudará a comprender de forma sencilla los principales temas de la biología, como la fotosíntesis, el ciclo celular, la mitosis, el metabolismo y la respiración aeróbica y anaeróbica. Además, te permitirá conocer cómo estos procesos ocurren en los seres vivos y por qué son fundamentales para la vida. Nuestro contenido está diseñado para facilitar el aprendizaje, reforzar tus conocimientos y despertar el interés por el mundo de la biología.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Columna Derecha: Imagen Principal y Resumen -->
+        <div class="right-column">
+            
+            <!-- Sección de Imagen (Reemplaza al Video) -->
+            <h2 class="section-title">Imagen principal</h2>
+            <div class="image-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Dibujo_de_Biolog%C3%ADa.svg" alt="Dibujo de Biología - BioSintax">
+            </div>
+
+            <!-- Sección de Resumen -->
+            <h2 class="section-title">Resumen</h2>
+            <div class="summary-card">
+                <p class="content-text" style="margin-bottom: 0;">
+                    BioSintax es una plataforma didáctica creada por alumnos del 10mo grado "B" (especialidad científico-matemática) del Lima High School. El sitio web reúne de manera organizada y accesible lecciones clave sobre biología (mitosis, fotosíntesis, metabolismo y respiración celular) con el firme propósito de reforzar el rendimiento académico y fomentar la curiosidad científica de nuestra comunidad estudiantil.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Scripts de Interactividad Real -->
+    <script>
+        // Abrir/Cerrar los acordeones (Paneles)
+        function togglePanel(panelId) {
+            const currentPanel = document.getElementById(panelId);
+            currentPanel.classList.toggle('collapsed');
+        }
+    </script>
+
+</body>
+</html>

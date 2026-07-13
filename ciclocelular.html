@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioSintax - Ciclo Celular</title>
+    <style>
+        /* General Styles & Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F6EFEF; /* Fondo general suave */
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        /* Top Bar Navigation */
+        .navbar {
+            background-color: #AD6C6C; /* Fondo navegación */
+            padding: 12px 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: #F6EFEF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 20px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #C49797; /* Resaltado activo */
+            color: #ffffff;
+        }
+
+        /* Header Area */
+        .header-section {
+            background-color: #ffffff;
+            border-bottom: 1px solid #E5D1D1;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: #AD6C6C; /* Título principal */
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .search-cell {
+            width: 300px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px 10px 36px;
+            border: 1px solid #D5B4B4;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #F6EFEF;
+        }
+
+        .search-input:focus {
+            border-color: #AD6C6C;
+            box-shadow: 0 0 0 3px rgba(173, 108, 108, 0.15);
+            background-color: #ffffff;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #C49797;
+            font-size: 14px;
+        }
+
+        /* Main Dashboard Layout */
+        .main-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 24px;
+        }
+
+        /* Columnas */
+        .left-column {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .right-column {
+            width: 50%;
+        }
+
+        /* Acordeones (Paneles) */
+        .panel-container {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #E5D1D1;
+            box-shadow: 0 4px 6px -1px rgba(173, 108, 108, 0.05);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background-color: #E5D1D1; /* Encabezado paneles */
+            padding: 14px 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #2d3748;
+            border-bottom: 1px solid #D5B4B4;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+
+        .panel-header:hover {
+            background-color: #D5B4B4;
+        }
+
+        .panel-header .arrow {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        /* Estado colapsado del panel */
+        .panel-container.collapsed .panel-body {
+            display: none;
+        }
+        
+        .panel-container.collapsed .panel-header {
+            border-bottom: none;
+        }
+
+        .panel-container.collapsed .arrow {
+            transform: rotate(-90deg);
+        }
+
+        .panel-body {
+            padding: 24px;
+            background: #ffffff;
+        }
+
+        /* Sistema de Pestañas (Tabs) */
+        .tab-layout {
+            display: flex;
+            gap: 15px;
+        }
+
+        .tab-buttons-cell {
+            display: flex;
+            flex-direction: column;
+            width: 110px;
+            flex-shrink: 0;
+        }
+
+        .tab-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 14px;
+            background-color: #F6EFEF;
+            border: 1px solid #E5D1D1;
+            border-right: none;
+            margin-bottom: 6px;
+            border-radius: 6px 0 0 6px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 500;
+            color: #718096;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .tab-btn:hover {
+            color: #AD6C6C;
+            background-color: #E5D1D1;
+        }
+
+        .tab-btn.active {
+            background-color: #ffffff;
+            color: #AD6C6C;
+            font-weight: 600;
+            border-left: 3px solid #AD6C6C; /* Borde de pestaña activa */
+            width: calc(100% + 1px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .tab-content-cell {
+            flex-grow: 1;
+            background: #ffffff;
+            border: 1px solid #E5D1D1;
+            border-radius: 0 8px 8px 8px;
+            padding: 20px;
+            min-height: 320px;
+        }
+
+        /* Ocultar/Mostrar paneles de las pestañas */
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .content-title {
+            font-size: 18px;
+            color: #AD6C6C;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .content-text {
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .content-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #D5B4B4;
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Evaluación / Cuestionario */
+        .quiz-question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #E5D1D1;
+        }
+
+        .quiz-question:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .question-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .quiz-options {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .quiz-options li {
+            font-size: 13px;
+            padding: 8px 12px;
+            background-color: #F6EFEF;
+            border: 1px solid #E5D1D1;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-options li:hover {
+            background-color: #E5D1D1;
+        }
+
+        .quiz-options li.correct {
+            background-color: #d1fae5; /* Verde suave para respuestas correctas */
+            border-color: #34d399;
+            color: #065f46;
+            font-weight: 500;
+        }
+
+        .quiz-options li.incorrect {
+            background-color: #fee2e2; /* Rojo suave para respuestas incorrectas */
+            border-color: #f87171;
+            color: #991b1b;
+        }
+
+        /* Links adicionales */
+        .resource-links {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .resource-links li {
+            margin-bottom: 10px;
+        }
+
+        .resource-links a {
+            color: #AD6C6C;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .resource-links a:hover {
+            text-decoration: underline;
+            color: #C49797;
+        }
+
+        /* Right Side: Media & Summaries */
+        .section-title {
+            font-size: 22px;
+            color: #AD6C6C;
+            margin-bottom: 14px;
+            font-weight: 600;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #E5D1D1;
+        }
+
+        .video-container {
+            background-color: #000000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 15px -3px rgba(173, 108, 108, 0.1);
+        }
+
+        .video-mock {
+            width: 100%;
+            height: 320px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a202c;
+        }
+
+        .video-mock img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .video-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 68px;
+            height: 68px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 72px;
+            padding-left: 4px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .video-play-btn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background-color: #ffffff;
+        }
+
+        .video-play-btn svg {
+            fill: #AD6C6C;
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #E5D1D1;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(173, 108, 108, 0.05);
+        }
+
+        /* ==========================================
+           RESPONSIVE DESIGN (MEDIA QUERIES)
+           ========================================== */
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+                padding: 0 15px;
+            }
+
+            .left-column, .right-column {
+                width: 100%;
+            }
+
+            .header-section {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .brand-title {
+                font-size: 32px;
+            }
+
+            .search-cell {
+                width: 100%;
+            }
+
+            .tab-layout {
+                flex-direction: column;
+            }
+
+            .tab-buttons-cell {
+                flex-direction: row;
+                width: 100%;
+                border-bottom: 1px solid #E5D1D1;
+                margin-bottom: 10px;
+            }
+
+            .tab-btn {
+                border-radius: 6px 6px 0 0;
+                border: 1px solid #E5D1D1;
+                border-bottom: none;
+                margin-bottom: 0;
+                margin-right: 4px;
+                text-align: center;
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .tab-btn.active {
+                width: auto;
+                height: calc(100% + 1px);
+                border-left: 1px solid #E5D1D1;
+                border-top: 3px solid #AD6C6C;
+            }
+
+            .tab-content-cell {
+                border-radius: 0 0 8px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="index.html">Index</a>
+            <a href="mitosis.html">Mitosis</a>
+            <a href="ciclocelular.html" class="active">Ciclo celular</a>
+            <a href="metabolismo.html">Metabolismo</a>
+            <a href="respiraciones.html">Respiración</a>
+            <a href="fotosintesis.html">Fotosíntesis</a>
+        </div>
+    </div>
+
+    <div class="header-section">
+        <div class="brand-cell">
+            <h1 class="brand-title">BioSintax</h1>
+        </div>
+        <div class="search-cell">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Buscar concepto...">
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        
+        <div class="left-column">
+            
+            <div class="panel-container" id="panel-1">
+                <div class="panel-header" onclick="togglePanel('panel-1')">
+                    <span>¿De qué trata el Ciclo Celular?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    
+                    <div class="tab-layout">
+                        <div class="tab-buttons-cell">
+                            <button class="tab-btn active" onclick="openTab(event, 'tab-content-1')">Definición</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-content-2')">Fases</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-content-3')">Regulación</button>
+                        </div>
+                        
+                        <div class="tab-content-cell">
+                            <div id="tab-content-1" class="tab-panel active">
+                                <h3 class="content-title">Introducción al Ciclo Celular</h3>
+                                <p class="content-text">
+                                    El ciclo celular es el ciclo de vida de una célula. Es una secuencia ordenada de eventos que describen las etapas de la vida de una célula desde la división de una célula madre hasta la producción de dos nuevas células hijas.
+                                </p>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6bQ1Q1lUV_cEVbh3gUpvtaykXYHnDv-8kvqAHBJ8Nag&s=10" alt="Esquema General del Ciclo Celular" class="content-img" style="max-height: 180px;">
+                            </div>
+
+                            <div id="tab-content-2" class="tab-panel">
+                                <h3 class="content-title">Etapas Principales: Interfase y Fase M</h3>
+                                <p class="content-text">
+                                    Se divide principalmente en dos períodos:
+                                    <br>• <strong>Interfase:</strong> La célula crece y copia su ADN (Etapas G1, S y G2).
+                                    <br>• <strong>Fase M (Mitosis):</strong> La célula separa su ADN y divide su citoplasma para dar origen a las células hijas.
+                                </p>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Cell_cycle.png" alt="Fases G1, S, G2 y Mitosis" class="content-img" style="max-height: 180px;">
+                            </div>
+
+                            <div id="tab-content-3" class="tab-panel">
+                                <h3 class="content-title">Puntos de Control (Checkpoints)</h3>
+                                <p class="content-text">
+                                    Para evitar errores perjudiciales (como mutaciones o tumores), la célula cuenta con sistemas internos de control. Los tres puntos de control clave son G1, G2 y el punto de control de la Metafase (Fase M), que verifican que el ADN no esté dañado y que los cromosomas estén bien alineados.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel-container collapsed" id="panel-2">
+                <div class="panel-header" onclick="togglePanel('panel-2')">
+                    <span>EVALUACIÓN</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    <p class="content-text" style="font-weight: 500;">¡Haz clic sobre las opciones para comprobar tus respuestas!</p>
+                    
+                    <div class="quiz-question">
+                        <p class="question-title">1. ¿En qué etapa del ciclo celular ocurre la replicación o duplicación del ADN?</p>
+                        <ul class="quiz-options">
+                            <li onclick="checkAnswer(this, false)">Fase G1</li>
+                            <li onclick="checkAnswer(this, true)">Fase S (Síntesis)</li>
+                            <li onclick="checkAnswer(this, false)">Fase G2</li>
+                            <li onclick="checkAnswer(this, false)">Mitosis</li>
+                        </ul>
+                    </div>
+
+                    <div class="quiz-question">
+                        <p class="question-title">2. ¿Cuál es el orden secuencial correcto de las fases de la interfase?</p>
+                        <ul class="quiz-options">
+                            <li onclick="checkAnswer(this, false)">S → G1 → G2</li>
+                            <li onclick="checkAnswer(this, false)">G2 → S → G1</li>
+                            <li onclick="checkAnswer(this, true)">G1 → S → G2</li>
+                            <li onclick="checkAnswer(this, false)">Mitosis → Citocinesis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-container collapsed" id="panel-3">
+                <div class="panel-header" onclick="togglePanel('panel-3')">
+                    <span>INFORMACIÓN ADICIONAL</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    <p class="content-text">Explora fuentes científicas recomendadas para profundizar tus conocimientos sobre el ciclo celular:</p>
+                    <ul class="resource-links">
+                        <li>
+                            <a href="https://es.khanacademy.org/science/ap-biology/cell-communication-and-cell-cycle/cell-cycle/a/cell-cycle" target="_blank">🔗 Khan Academy - Introducción al Ciclo Celular</a>
+                        </li>
+                        <li>
+                            <a href="https://www.genome.gov/es/genetics-glossary/Ciclo-celular" target="_blank">🔗 NHGRI (National Genome Research Institute) - Glosario del Ciclo Celular</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="right-column">
+            
+            <h2 class="section-title">Video general</h2>
+            <div class="video-container">
+                <a href="https://youtu.be/I0PdiIICFW4" target="_blank">
+                    <div class="video-mock">
+                        <img src="https://img.youtube.com/vi/I0PdiIICFW4/maxresdefault.jpg" alt="Video de Ciclo Celular">
+                        <div class="video-play-btn">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <h2 class="section-title">Resumen</h2>
+            <div class="summary-card">
+                <p class="content-text" style="margin-bottom: 0;">
+                    El ciclo celular abarca todo el desarrollo biológico de una célula, asegurando que crezca de manera óptima en la fase G1, replique fielmente su material genético en la fase S y prepare las herramientas de división en la fase G2. Una vez superados los estrictos puntos de control bioquímicos, la célula entra en la Fase M (mitosis y citocinesis) para repartir equitativamente el material genético duplicado, dando origen a dos células independientes indispensables para el crecimiento y reparación de los tejidos.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Cambiar dinámicamente entre pestañas (Tabs)
+        function openTab(evt, tabId) {
+            const panelBody = evt.currentTarget.closest('.panel-body');
+            
+            const tabPanels = panelBody.querySelectorAll('.tab-panel');
+            tabPanels.forEach(panel => panel.classList.remove('active'));
+
+            const tabButtons = panelBody.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+
+            panelBody.querySelector('#' + tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Abrir/Cerrar los acordeones (Paneles)
+        function togglePanel(panelId) {
+            const currentPanel = document.getElementById(panelId);
+            currentPanel.classList.toggle('collapsed');
+        }
+
+        // Comprobación de Respuestas de la Evaluación
+        function checkAnswer(element, isCorrect) {
+            // Obtener todas las opciones de la misma pregunta
+            const options = element.parentElement.querySelectorAll('li');
+            
+            // Limpiar clases previas de esta pregunta
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+
+            // Asignar clase según corresponda
+            if (isCorrect) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('incorrect');
+            }
+        }
+    </script>
+
+</body>
+</html>

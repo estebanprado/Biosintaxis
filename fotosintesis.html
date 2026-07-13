@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioSintax - Plataforma de Aprendizaje Biológico</title>
+    <style>
+        /* General Styles & Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F1F4F1; /* Fondo sutilmente verdoso */
+            color: #475C4B; /* Texto oscuro con tinte verde */
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        /* Top Bar Navigation */
+        .navbar {
+            background-color: #475C4B; /* Verde Bosque Oscuro */
+            padding: 12px 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: #BDCCBF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 20px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #5B765F; /* Verde Clorofila */
+            color: #F1F4F1;
+        }
+
+        /* Header Area */
+        .header-section {
+            background-color: #F1F4F1;
+            border-bottom: 1px solid #BDCCBF;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: #475C4B;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .search-cell {
+            width: 300px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px 10px 36px;
+            border: 1px solid #b7e4c7;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #F1F4F1;
+        }
+
+        .search-input:focus {
+            border-color: #5B765F;
+            box-shadow: 0 0 0 3px rgba(64, 145, 108, 0.15);
+            background-color: #F1F4F1;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5B765F;
+            font-size: 14px;
+        }
+
+        /* Main Dashboard Layout */
+        .main-container {
+            max-width: 1400px !important;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid !important;
+            grid-template-columns: 50% 50% !important;
+            align-items: start !important;
+            gap: 24px !important;
+        }
+
+        /* Columnas */
+        .left-column, .right-column {
+            width: 100% !important;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .right-column {
+            position: sticky;
+            top: 20px;
+            align-self: start;
+        }
+
+        /* Acordeones (Paneles) */
+        .panel-container {
+            background: #F1F4F1;
+            border-radius: 12px;
+            border: 1px solid #BDCCBF;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background-color: #D7E0D8; /* Fondo claro verdoso */
+            padding: 14px 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #475C4B;
+            border-bottom: 1px solid #BDCCBF;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+
+        .panel-header:hover {
+            background-color: #BDCCBF;
+        }
+
+        .panel-header .arrow {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        /* Estado colapsado del panel */
+        .panel-container.collapsed .panel-body {
+            display: none;
+        }
+        
+        .panel-container.collapsed .panel-header {
+            border-bottom: none;
+        }
+
+        .panel-container.collapsed .arrow {
+            transform: rotate(-90deg);
+        }
+
+        .panel-body {
+            padding: 24px;
+            background: #F1F4F1;
+        }
+
+        /* Sistema de Pestañas (Tabs) */
+        .tab-layout {
+            display: flex;
+            gap: 15px;
+        }
+
+        .tab-buttons-cell {
+            display: flex;
+            flex-direction: column;
+            width: 130px;
+            flex-shrink: 0;
+        }
+
+        .tab-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 14px;
+            background-color: #F1F4F1;
+            border: 1px solid #BDCCBF;
+            border-right: none;
+            margin-bottom: 6px;
+            border-radius: 6px 0 0 6px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 500;
+            color: #5B765F;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .tab-btn:hover {
+            color: #475C4B;
+            background-color: #D7E0D8;
+        }
+
+        .tab-btn.active {
+            background-color: #F1F4F1;
+            color: #475C4B;
+            font-weight: 600;
+            border-left: 3px solid #5B765F;
+            width: calc(100% + 1px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .tab-content-cell {
+            flex-grow: 1;
+            background: #F1F4F1;
+            border: 1px solid #BDCCBF;
+            border-radius: 0 8px 8px 8px;
+            padding: 20px;
+            min-height: 350px;
+        }
+
+        /* Ocultar/Mostrar paneles de las pestañas */
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .content-title {
+            font-size: 20px;
+            color: #475C4B;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .content-text {
+            font-size: 14px;
+            color: #475C4B;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        /* Estilos de las Imágenes Educativas */
+        .educational-img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: contain;
+            background-color: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #BDCCBF;
+            margin: 12px 0;
+            padding: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Right Side: Media & Summaries */
+        .section-title {
+            font-size: 22px;
+            color: #475C4B;
+            margin-bottom: 14px;
+            font-weight: 600;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #BDCCBF;
+        }
+
+        .video-container {
+            background: #F1F4F1 !important;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            padding: 0 !important;
+        }
+
+        /* Mock de video personalizado */
+        .video-mock {
+            position: relative;
+            width: 100%;
+            display: block;
+            line-height: 0;
+        }
+
+        .video-mock img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 68px;
+            height: 48px;
+            background-color: rgba(33, 33, 33, 0.8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .video-mock:hover .video-play-btn {
+            background-color: #cc181e;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-play-btn svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background-color: #F1F4F1;
+            border-radius: 12px;
+            border: 1px solid #BDCCBF;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        /* Estilos Formulario (Panel Evaluación) */
+        .quiz-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .quiz-question {
+            margin-bottom: 15px;
+        }
+
+        .quiz-q {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+        
+        .quiz-option {
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #eef2ef;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #BDCCBF;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-option:hover {
+            background: #e2e9e4;
+        }
+        
+        .quiz-option input {
+            transform: scale(1.1);
+        }
+
+        .feedback {
+            margin-top: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            display: none;
+        }
+
+        .btn-submit {
+            background: #475C4B;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #5B765F;
+        }
+
+        #resultado-final {
+            margin-top: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Estilos Animación Fotosíntesis */
+        .animation-box {
+            margin-top: 20px;
+            border: 1px solid #BDCCBF;
+            border-radius: 8px;
+            padding: 15px;
+            background: #E4ECE5;
+            position: relative;
+            height: 120px;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .anim-element {
+            font-size: 12px;
+            font-weight: bold;
+            padding: 6px 10px;
+            border-radius: 20px;
+            position: relative;
+        }
+        
+        .anim-sun { background: #F4D068; color: #475C4B; animation: pulse 2s infinite; }
+        .anim-water { background: #A9C2F0; color: #475C4B; animation: floatUp 3s infinite linear; }
+        .anim-co2 { background: #D0C3B1; color: #475C4B; animation: floatUp 4s infinite linear; }
+        .anim-leaf { background: #5B765F; color: #F1F4F1; border-radius: 4px; padding: 15px; text-align: center;}
+        .anim-sugar { background: #E6B89C; color: #475C4B; animation: floatDown 3.5s infinite linear; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); box-shadow: 0 0 10px #F4D068; }
+            100% { transform: scale(1); }
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-30px); opacity: 0; }
+        }
+        @keyframes floatDown {
+            0% { transform: translateY(-30px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(30px); opacity: 0; }
+        }
+
+        /* ==========================================
+           RESPONSIVE DESIGN (MEDIA QUERIES)
+           ========================================== */
+        @media (max-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr !important;
+                padding: 0 15px;
+            }
+
+            .right-column {
+                position: static;
+            }
+
+            .header-section {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .brand-title {
+                font-size: 32px;
+            }
+
+            .search-cell {
+                width: 100%;
+            }
+
+            .tab-layout {
+                flex-direction: column;
+            }
+
+            .tab-buttons-cell {
+                flex-direction: row;
+                width: 100%;
+                border-bottom: 1px solid #BDCCBF;
+                margin-bottom: 10px;
+            }
+
+            .tab-btn {
+                border-radius: 6px 6px 0 0;
+                border: 1px solid #BDCCBF;
+                border-bottom: none;
+                margin-bottom: 0;
+                margin-right: 4px;
+                text-align: center;
+            }
+
+            .tab-btn.active {
+                width: auto;
+                height: calc(100% + 1px);
+                border-left: 1px solid #BDCCBF;
+                border-top: 3px solid #5B765F;
+            }
+
+            .tab-content-cell {
+                border-radius: 0 0 8px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="index.html">Index</a>
+            <a href="mitosis.html">Mitosis</a>
+            <a href="ciclocelular.html">Ciclo celular</a>
+            <a href="metabolismo.html">Metabolismo</a>
+            <a href="respiraciones.html">Respiración</a>
+            <a href="fotosintesis.html" class="active">Fotosíntesis</a>
+        </div>
+    </div>
+
+    <div class="header-section">
+        <div class="brand-cell">
+            <h1 class="brand-title">BioSintax</h1>
+        </div>
+        <div class="search-cell">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Buscar concepto de fotosíntesis...">
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        
+        <div class="left-column">
+            
+            <div class="panel-container" id="panel-1">
+                <div class="panel-header" onclick="togglePanel('panel-1')">
+                    <span>FOTOSÍNTESIS</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    
+                    <div class="tab-layout">
+                        <div class="tab-buttons-cell">
+                            <button class="tab-btn active" onclick="openTab(event, 'tab-content-1')">Mecanismo</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-content-2')">La Luz</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-content-3')">Fase Lumínica</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-content-4')">Fase Oscura</button>
+                        </div>
+                        
+                        <div class="tab-content-cell">
+                            <div id="tab-content-1" class="tab-panel active">
+                                <h3 class="content-title">¿Qué es la fotosíntesis?</h3>
+                                <p class="content-text">
+                                    Es un proceso <strong>anabólico</strong> realizado por organismos con clorofila (plantas, algas y cianobacterias) que transforma la energía luminosa en química. Consume CO₂ y H₂O para sintetizar glucosa, liberando O₂.<br><br>
+                                    <strong>Ecuación general:</strong><br>
+                                    <code>6 CO₂ + 6 H₂O + Luz → C₆H₁₂O₆ (Glucosa) + 6 O₂</code>
+                                </p>
+                                
+                                <img class="educational-img" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Photosynthesis-es.png" alt="Mecanismo global de la fotosíntesis">
+                                
+                                <p class="content-text">
+                                    Ocurre en los <strong>cloroplastos</strong>, orgánulos con doble membrana y tilacoides (agrupados en granas). Sus pigmentos (clorofilas, xantofilas, carotenos) se pueden separar mediante <em>cromatografía de papel</em>.
+                                </p>
+                            </div>
+
+                            <div id="tab-content-2" class="tab-panel">
+                                <h3 class="content-title">Longitudes de Onda y Factores</h3>
+                                <p class="content-text">
+                                    La luz blanca del Sol (~400-700 nm) posee radiaciones electromagnéticas. Las ondas cortas (violeta/azul) tienen más energía; las largas (rojo) menos. La clorofila absorbe luz azul y roja con alta eficacia y refleja la verde.
+                                </p>
+                                
+                                <p class="content-text">
+                                    <strong>Factores que afectan la velocidad:</strong><br>
+                                    • <strong>Temperatura:</strong> Incrementa hasta un óptimo y decae bruscamente a altas temperaturas.<br>
+                                    • <strong>Intensidad de luz:</strong> Sube hasta alcanzar una meseta estable.<br>
+                                    • <strong>Concentración de CO₂:</strong> Aumenta progresivamente hasta un máximo estable.
+                                </p>
+                            </div>
+
+                            <div id="tab-content-3" class="tab-panel">
+                                <h3 class="content-title" style="color: #27ae60;">Fase Lumínica (Dependiente de la Luz)</h3>
+                                <p class="content-text">
+                                    Esta primera etapa ocurre estrictamente en las membranas de los <strong>tilacoides</strong> dentro de los cloroplastos, lugar donde se localizan los fotosistemas (I y II) repletos de pigmentos fotosensibles como la clorofila. El proceso bioquímico comienza en el momento preciso en que los fotones de la luz solar impactan y excitan los electrones del núcleo de la clorofila.
+                                </p>
+                                
+                                <img class="educational-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Simple_photosynthesis_overview_gl.svg/1280px-Simple_photosynthesis_overview_gl.svg.png?_=20150517204132" alt="Resumen simplificado del proceso fotosintético (Fase Lumínica)">
+                                
+                                <p class="content-text">
+                                    Para reponer los electrones perdidos por los fotosistemas, se lleva a cabo un evento crucial llamado la <strong>fotólisis del agua</strong>: las moléculas de agua (H₂O) son rotas químicamente gracias a la energía absorbida. Este quiebre molecular libera protones, electrones y gas oxígeno (O₂) que la planta expulsa directamente a la atmósfera.
+                                </p>
+                            </div>
+
+                            <div id="tab-content-4" class="tab-panel">
+                                <h3 class="content-title" style="color: #d35400;">Fase Oscura (Ciclo de Calvin)</h3>
+                                <p class="content-text">
+                                    También conocida como la fase independiente de la luz, se lleva a cabo en el <strong>estroma</strong>, la region fluida e interna del cloroplasto que rodea a los tilacoides. Aunque esta etapa no necesita de la radiación solar de forma directa para operar, requiere de forma obligatoria y estricta el suministro continuo de los productos de alta energía obtenidos previamente en la fase lumínica: el ATP y el NADPH.
+                                </p>
+                                
+                                <img class="educational-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Simple_photosynthesis_overview_gl.svg/1280px-Simple_photosynthesis_overview_gl.svg.png?_=20150517204132" alt="Resumen simplificado del proceso fotosintético (Fase Oscura)">
+                                
+                                <p class="content-text">
+                                    El objetivo metabólico central de esta fase es la <strong>fijación del carbono</strong>. El ciclo toma el CO₂ y lo une a un azúcar de cinco carbonos gracias a la enzima <strong>RuBisCO</strong>. Utilizando la energía acumulada del ATP y el poder reductor transportado por el NADPH, la estructura de carbono se reordena y reduce progresivamente hasta sintetizar una molécula de tres carbonos llamada <strong>G3P</strong>, base para fabricar glucosa (C₆H₁₂O₆).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel-container collapsed" id="panel-2">
+                <div class="panel-header" onclick="togglePanel('panel-2')">
+                    <span>EVALUACIÓN</span><span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    <form id="photosynthesis-quiz" class="quiz-form" onsubmit="event.preventDefault();">
+                        
+                        <div class="quiz-question">
+                            <p class="quiz-q">1. ¿En qué lugar específico del cloroplasto se lleva a cabo la fase lumínica?</p>
+                            <div class="quiz-options">
+                                <label class="quiz-option"><input type="radio" name="q1" value="incorrecta1"> En el estroma fluido</label>
+                                <label class="quiz-option"><input type="radio" name="q1" value="correcta"> En las membranas de los tilacoides</label>
+                                <label class="quiz-option"><input type="radio" name="q1" value="incorrecta2"> En la membrana externa celular</label>
+                            </div>
+                            <div class="feedback"></div>
+                        </div>
+
+                        <div class="quiz-question">
+                            <p class="quiz-q">2. ¿Cuál es el producto gaseoso que se libera a la atmósfera durante la fotólisis del agua?</p>
+                            <div class="quiz-options">
+                                <label class="quiz-option"><input type="radio" name="q2" value="correcta"> Gas Oxígeno (O₂)</label>
+                                <label class="quiz-option"><input type="radio" name="q2" value="incorrecta1"> Dióxido de Carbono (CO₂)</label>
+                                <label class="quiz-option"><input type="radio" name="q2" value="incorrecta2"> Vapor de carbohidratos</label>
+                            </div>
+                            <div class="feedback"></div>
+                        </div>
+
+                        <div class="quiz-question">
+                            <p class="quiz-q">3. ¿Qué enzima es la encargada de fijar el CO₂ molecular durante el Ciclo de Calvin?</p>
+                            <div class="quiz-options">
+                                <label class="quiz-option"><input type="radio" name="q3" value="incorrecta1"> ATP Sintasa molecular</label>
+                                <label class="quiz-option"><input type="radio" name="q3" value="incorrecta2"> Clorofila oxidasa lumínica</label>
+                                <label class="quiz-option"><input type="radio" name="q3" value="correcta"> Enzima RuBisCO</label>
+                            </div>
+                            <div class="feedback"></div>
+                        </div>
+
+                        <button type="button" class="btn-submit" onclick="evaluarQuiz()">Enviar Evaluación</button>
+                    </form>
+                    
+                    <div id="resultado-final"></div>
+                </div>
+            </div>
+
+            <div class="panel-container collapsed" id="panel-3">
+                <div class="panel-header" onclick="togglePanel('panel-3')">
+                    <span>RECURSOS ADICIONALES</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    <p class="content-text">Explora más información externa y laboratorios virtuales:</p>
+                    <ul style="margin-left: 20px; font-size: 14px; color: #5B765F;">
+                        <li><a href="https://www.uprtek.com/es/blogs/photosynthesis-what-where-how-and-why" target="_blank" style="color: #475C4B; font-weight: 600;">Blog UPRtek: Qué, dónde, cómo y por qué</a></li>
+                        <li style="margin-top: 8px;"><a href="http://amrita.olabs.edu.in/?sub=79&brch=17&sim=124&cnt=4" target="_blank" style="color: #475C4B; font-weight: 600;">Simulador: Separación de pigmentos (Olabs)</a></li>
+                        <li style="margin-top: 8px;"><a href="http://youtu.be/Rt37Hyn4Qv4" target="_blank" style="color: #475C4B; font-weight: 600;">Experimento de Engelmann (Video explicativo)</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="right-column">
+            
+            <h2 class="section-title">Video general</h2>
+            <div class="video-container">
+                <a href="https://www.youtube.com/watch?v=X2Z-0e5maKw" target="_blank">
+                    <div class="video-mock">
+                        <img src="https://img.youtube.com/vi/X2Z-0e5maKw/maxresdefault.jpg" alt="Video de la fotosíntesis">
+                        <div class="video-play-btn">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <h2 class="section-title">Resumen</h2>
+            <div class="summary-card">
+                <p class="content-text" style="margin-bottom: 0;">
+                    La <strong>fotosíntesis</strong> es el motor fundamental de la vida vegetal y global. Transforma agua, dióxido de carbono y fotones lumínicos en carbohidratos ricos en energía (glucosa) y desecha oxígeno a la atmósfera. Su eficiencia metabólica está ligada a factores ambientales controlados por enzimas como la temperatura, niveles de CO₂ y pH.
+                </p>
+                
+                <div class="animation-box">
+                    <div class="anim-element anim-sun">Luz ☀️</div>
+                    <div style="display:flex; flex-direction:column; gap:5px;">
+                        <div class="anim-element anim-water">H₂O 💧</div>
+                        <div class="anim-element anim-co2">CO₂ 💨</div>
+                    </div>
+                    <div class="anim-element anim-leaf">🌱 Hoja<br>(Cloroplasto)</div>
+                    <div style="display:flex; flex-direction:column; gap:5px;">
+                        <div class="anim-element anim-sugar">C₆H₁₂O₆ 🍎</div>
+                        <div class="anim-element anim-water" style="background:#BDCCBF; animation: floatUp 2.5s infinite linear;">O₂ 💨</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(evt, tabId) {
+            const panelBody = evt.currentTarget.closest('.panel-body');
+            
+            const tabPanels = panelBody.querySelectorAll('.tab-panel');
+            tabPanels.forEach(panel => panel.classList.remove('active'));
+
+            const tabButtons = panelBody.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+
+            panelBody.querySelector('#' + tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        function togglePanel(panelId) {
+            const currentPanel = document.getElementById(panelId);
+            currentPanel.classList.toggle('collapsed');
+        }
+
+        function evaluarQuiz() {
+            const form = document.getElementById('photosynthesis-quiz');
+            const preguntas = ['q1', 'q2', 'q3'];
+            let aciertos = 0;
+
+            const respuestasCorrectasTexto = {
+                q1: "En las membranas de los tilacoides",
+                q2: "Gas Oxígeno (O₂)",
+                q3: "Enzima RuBisCO"
+            };
+
+            preguntas.forEach((pregunta) => {
+                const opciones = form.querySelectorAll(`input[name="${pregunta}"]`);
+                const preguntaContenedor = opciones[0].closest('.quiz-question');
+                const feedback = preguntaContenedor.querySelector('.feedback');
+                let seleccionada = form.querySelector(`input[name="${pregunta}"]:checked`);
+
+                opciones.forEach(opt => {
+                    opt.parentElement.style.background = "#eef2ef";
+                    opt.parentElement.style.borderColor = "#BDCCBF";
+                    opt.parentElement.style.color = "#475C4B";
+                });
+
+                feedback.style.display = "block";
+
+                if (seleccionada) {
+                    if (seleccionada.value === "correcta") {
+                        aciertos++;
+                        seleccionada.parentElement.style.background = "#d4edda";
+                        seleccionada.parentElement.style.borderColor = "#c3e6cb";
+                        seleccionada.parentElement.style.color = "#155724";
+                        feedback.innerHTML = "¡Correcto! Excelente respuesta.";
+                        feedback.style.color = "#155724";
+                    } else {
+                        seleccionada.parentElement.style.background = "#f8d7da";
+                        seleccionada.parentElement.style.borderColor = "#f5c6cb";
+                        seleccionada.parentElement.style.color = "#721c24";
+                        feedback.innerHTML = `Incorrecto. Respuesta correcta: <strong>${respuestasCorrectasTexto[pregunta]}</strong>`;
+                        feedback.style.color = "#721c24";
+                        
+                        opciones.forEach(opt => {
+                            if(opt.value === "correcta") {
+                                opt.parentElement.style.borderColor = "#27ae60";
+                                opt.parentElement.style.background = "#eef9f1";
+                            }
+                        });
+                    }
+                } else {
+                    feedback.innerHTML = `No respondiste. Respuesta correcta: <strong>${respuestasCorrectasTexto[pregunta]}</strong>`;
+                    feedback.style.color = "#a51d24";
+                    opciones.forEach(opt => {
+                        if(opt.value === "correcta") {
+                            opt.parentElement.style.borderColor = "#27ae60";
+                            opt.parentElement.style.background = "#eef9f1";
+                        }
+                    });
+                }
+            });
+
+            const resultDiv = document.getElementById('resultado-final');
+            if (aciertos === preguntas.length) {
+                resultDiv.style.color = "#27ae60";
+                resultDiv.innerHTML = `¡Perfecto! Tu puntuación es: ${aciertos} de ${preguntas.length} correctas. 🌟`;
+            } else {
+                resultDiv.style.color = "#475C4B";
+                resultDiv.innerHTML = `Tu puntuación es: ${aciertos} de ${preguntas.length} correctas. ¡Sigue repasando!`;
+            }
+        }
+    </script>
+
+</body>
+</html>

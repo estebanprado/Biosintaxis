@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioSintax - Plataforma de Aprendizaje Biológico</title>
+    <link rel="stylesheet" href="css/estilos.css">
+
+</head>
+<body>
+
+<!-- Navegación superior basada en el mockup -->
+<div class="navbar">
+    <div class="nav-links">
+        <a href="index.html" >Index</a>
+        <a href="mitosis.html"class="active">Mitosis</a>
+        <a href="ciclocelular.html">Ciclo celular</a>
+        <a href="metabolismo.html">Metabolismo</a>
+        <a href="respiraciones.html">Respiración</a>
+        <a href="fotosintesis.html">Fotosíntesis</a>
+    </div>
+</div>
+
+<!-- Encabezado con Título y Buscador -->
+<div class="header-section">
+    <div class="brand-cell">
+        <h1 class="brand-title">BioSintax</h1>
+    </div>
+    <div class="search-cell">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Buscar concepto...">
+        </div>
+    </div>
+</div>
+
+<!-- Contenedor Principal Dashboard -->
+<div class="main-container">
+    
+    <!-- Columna Izquierda: Paneles y Pestañas Interactivas -->
+    <div class="left-column">
+        
+        <!-- Panel 1 (Activo) -->
+        <div class="panel-container" id="panel-1">
+            <div class="panel-header" onclick="togglePanel('panel-1')">
+                <span> Fases de la Mitosis </span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="panel-body">
+                
+                <div class="tab-layout">
+                    <!-- Pestañas Verticales Izquierdas -->
+                    <div class="tab-buttons-cell">
+                      <button class="tab-btn active" onclick="openTab(event, 'tab-content-1')">Introducción</button>
+
+<button class="tab-btn" onclick="openTab(event, 'tab-content-2')">Interfase</button><button class="tab-btn" onclick="openTab(event, 'tab-content-3')">Profase</button><button class="tab-btn" onclick="openTab(event, 'tab-content-4')">Prometafase</button><button class="tab-btn" onclick="openTab(event, 'tab-content-5')">Metafase</button><button class="tab-btn" onclick="openTab(event, 'tab-content-6')">Anafase</button><button class="tab-btn" onclick="openTab(event, 'tab-content-7')">Telofase</button></div>
+
+                    <!-- Contenedor de Contenidos del Tab -->
+                    <div class="tab-content-cell">
+                        <div id="tab-content-1" class="tab-panel active">
+                            <h3 class="content-title">¿En qué consiste la mitosis?</h3>
+                            <p class="content-text">
+                                La mitosis es un proceso de división celular mediante el que se obtienen dos células idénticas a partir de una sola célula. Dicho proceso es imprescindible para el crecimiento y mantenimiento de todos los organismos pluricelulares y es esencial en la reproducción de los organismos asexuales, unicelulares y pluricelulares. En este blog me centraré únicamente en la mitosis, propia de los organismos eucariotas, pero los procariotas también son capaces de dividirse.
+                            </p>
+
+                            <div class="content-image-placeholder">
+                                <img src="imagenes/intro.png" alt="Intro">
+                            </div>
+                        </div>
+
+                        <div id="tab-content-2" class="tab-panel">
+                            <h3 class="content-title">Interfase</h3>
+                            <p class="content-text">
+                                Antes de la mitosis , la célula pasa por una etapa llamada interfase, durante la cual crece y duplica su ADN dentro del núcleo. Además, justo antes de iniciar la división celular, se duplica el centrosoma, una estructura formada por dos centriolos y material pericentriolar. Durante la interfase, el centrosoma organiza los microtúbulos, que constituyen el esqueleto de la célula.
+                            </p>
+                            <div class="content-image-placeholder">
+                                <img src="imagenes/interfase.png" alt="Interfase">
+                            </div>
+                        </div>
+
+                        <div id="tab-content-3" class="tab-panel">
+                            <h3 class="content-title">Profase</h3>
+                            <p class="content-text">
+                               La profase es la primera fase de la mitosis. En esta etapa el ADN se condensa y pasa de cromatina a cromosomas. Este proceso está relacionado con la fosforilación de las histonas, que ayudan a organizar el material genético. Cada cromosoma queda formado por dos cromátidas hermanas unidas en su parte central. Las cromátidas son copias idénticas del ADN que se separarán más adelante. Además, los centrosomas se separan y se ubican en polos opuestos de la célula.
+                            </p>
+                            <div class="content-image-placeholder">
+                                <img src="imagenes/profase.png" alt="Profase">
+                            </div>
+                        </div>
+
+                        <div id="tab-content-4" class="tab-panel">
+<h3 class="content-title">Prometafase</h3>
+
+<p class="content-text">
+    Algunos autores denominan prometafase a la parte final de la profase, distinguiéndola como una fase posterior a la profase.
+    Cuando una célula llega a la prometafase, su membrana nuclear comienza a fragmentarse en pequeñas vesículas. El ADN de la célula está totalmente condensado en forma de cromosomas y ha desaparecido el nucleolo. En ese momento, los centrosomas extienden los microtúbulos desde cada uno de los centrosomas hasta los centrómeros de los cromosomas. A estos microtúbulos, en conjunto, se los conoce como “huso mitótico”. Los microtúbulos del huso mitótico tendrán un papel esencial en fases posteriores.
+</p>
+
+<div class="content-image-placeholder">
+    <img src="imagenes/prometafase.png" alt="Prometafase">
+</div>
+
+</div>
+
+<div id="tab-content-5" class="tab-panel">
+    <h3 class="content-title">Metafase</h3>
+
+<p class="content-text">
+    Durante la metafase, los cromosomas, unidos por sus centrómeros a los microtúbulos del huso mitótico, son arrastrados al ecuador de la célula, formando lo que se conoce como “placa ecuatorial”.  El desplazamiento de los cromosomas hacia la placa ecuatorial es fruto de la acción de proteínas motoras, el acortamiento y la elongación de los microtúbulos del huso mitótico.
+</p>
+
+<div class="content-image-placeholder">
+    <img src="imagenes/metafase.png" alt="Metafase">
+</div>
+
+</div>
+
+<div id="tab-content-6" class="tab-panel">
+    <h3 class="content-title">Anafase</h3>
+
+<p class="content-text">
+    Tras la disposición ecuatorial de los cromosomas en la metafase, durante la anafase se produce una rotura de las conexiones entre las cromátidas hermanas que forman los cromosomas. Esta separación de las cromátidas es mediada por la acción de los microtúbulos del huso mitótico.  Cada una de las cromátidas hermanas comienza a ser arrastrada hacia uno de los polos. Si todo ha progresado de forma adecuada, al final de la anafase, cada polo de la célula progenitora dispone de una copia idéntica de toda la información genética del organismo. Esto es esencial, ya que cada célula hija deberá recibir una copia idéntica del material genético a la célula progenitora.
+</p>
+
+<div class="content-image-placeholder">
+    <img src="imagenes/anafase.png" alt="Anafase">
+</div>
+
+</div>
+
+<div id="tab-content-7" class="tab-panel">
+    <h3 class="content-title">Telofase</h3>
+
+<p class="content-text">
+    Durante esta fase, el material genético vuelve a rodearse por la membrana nuclear. De hecho, si observamos una célula en este momento, encontramos dos núcleos en lugar de uno. Además, el ADN vuelve a descondensarse en forma de cromatina. Durante esta fase, también comienza un nuevo proceso, la citocinesis. La citocinesis es, en esencia, la separación del citoplasma de la célula progenitora en dos partes. Cada una de estas partes dará lugar a una nueva célula.
+</p>
+
+<div class="content-image-placeholder">
+    <img src="imagenes/telofase.png" alt="Telofase">
+</div>
+
+</div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Panel 2 (Colapsado por defecto) -->
+
+<div class="panel-container collapsed" id="panel-2">
+    <div class="panel-header" onclick="togglePanel('panel-2')">
+        <span>Panel 2: Evaluaciones Relacionadas</span>
+        <span class="arrow">▼</span>
+    </div>
+
+<div class="panel-body">
+
+    <h3 class="content-title">Cuestionario: La mitosis</h3>
+
+    <div class="content-text">
+
+        <p><strong>1.</strong> ¿Qué es la mitosis?</p>
+        <br>
+
+        <p><strong>2.</strong> ¿Cuál es la importancia de la mitosis en los organismos pluricelulares?</p>
+        <br>
+
+        <p><strong>3.</strong> ¿Qué ocurre durante la interfase antes de iniciar la mitosis?</p>
+        <br>
+
+        <p><strong>4.</strong> ¿En qué fase de la mitosis los cromosomas se colocan en el centro de la célula?</p>
+        <br>
+
+        <p><strong>5.</strong> ¿Cuál es el resultado final del proceso de mitosis?</p>
+
+    </div>
+
+</div>
+
+</div>
+
+        <!-- Panel 3 (Colapsado por defecto) -->
+
+<div class="panel-container collapsed" id="panel-3">
+    <div class="panel-header" onclick="togglePanel('panel-3')">
+        <span>Panel 3: Recursos Adicionales</span>
+        <span class="arrow">▼</span>
+    </div>
+
+<div class="panel-body">
+    <p class="content-text">
+        Para más información sobre la mitosis visita:
+        <br><br>
+        <a href="https://genotipia.com/mitosis/" target="_blank">
+            Genotipia - Mitosis
+        </a>
+    </p>
+</div>
+
+</div>
+
+</div>
+
+    <!-- Columna Derecha: Video General y Resumen -->
+    <div class="right-column">
+        
+        <!-- Sección de Video -->
+        <h2 class="section-title">Video general</h2>
+
+<div class="video-container">
+
+    <a href="https://www.youtube.com/watch?v=77Rk0S64Ve4&t=2s" target="_blank">
+
+        <div class="video-mock">
+
+            <img
+            img src="https://img.youtube.com/vi/77Rk0S64Ve4/maxresdefault.jpg">
+            alt="Video de la mitosis">
+
+            <div class="video-play-btn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </div>
+
+        </div>
+
+    </a>
+
+</div>
+
+        <!-- Sección de Resumen -->
+        <h2 class="section-title">Resumen</h2>
+        <div class="summary-card">
+
+<h3 class="content-title">
+    Resumen de la mitosis
+</h3>
+
+<p class="content-text">
+    La mitosis es un proceso de división celular donde una célula madre origina dos células hijas genéticamente idénticas.
+
+    Este proceso ocurre en varias fases: interfase, profase, prometafase, metafase, anafase y telofase.
+
+    Su función principal es permitir el crecimiento, reparación de tejidos y reproducción celular en organismos eucariotas.
+</p>
+
+</div>
+
+<!-- Scripts de Interactividad Real -->
+<script>
+    // Cambiar dinámicamente entre pestañas (Tabs)
+    function openTab(evt, tabId) {
+        const panelBody = evt.currentTarget.closest('.panel-body');
+        
+        const tabPanels = panelBody.querySelectorAll('.tab-panel');
+        tabPanels.forEach(panel => panel.classList.remove('active'));
+
+        const tabButtons = panelBody.querySelectorAll('.tab-btn');
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+
+        panelBody.querySelector('#' + tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    // Abrir/Cerrar los acordeones (Paneles)
+    function togglePanel(panelId) {
+        const currentPanel = document.getElementById(panelId);
+        currentPanel.classList.toggle('collapsed');
+    }
+</script>
+
+</body>
+</html>

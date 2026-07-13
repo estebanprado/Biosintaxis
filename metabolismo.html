@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioSintax - Metabolismo Celular</title>
+<style>
+/* General Styles & Typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+font-family: 'Inter', sans-serif;
+background-color: #F0CEC7; /* Fondo general suave */
+color: #2c1a16;
+line-height: 1.6;
+padding: 0;
+}
+
+/* Top Bar Navigation */
+.navbar {
+background-color: #5C2519; /* Fondo navegación */
+padding: 12px 24px;
+}
+
+.nav-links {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+}
+
+.nav-links a {
+color: #F0CEC7;
+text-decoration: none;
+font-size: 14px;
+font-weight: 500;
+margin-right: 20px;
+padding: 6px 12px;
+border-radius: 4px;
+transition: all 0.3s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+background-color: #803423; /* Resaltado activo */
+color: #ffffff;
+}
+
+/* Header Area */
+.header-section {
+background-color: #ffffff;
+border-bottom: 1px solid #e2b2a8;
+padding: 30px 40px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 20px;
+}
+
+.brand-title {
+font-family: 'Playfair Display', serif;
+font-size: 42px;
+color: #5C2519; /* Título principal */
+font-weight: 600;
+letter-spacing: -0.5px;
+}
+
+.search-cell {
+width: 300px;
+}
+
+.search-wrapper {
+position: relative;
+display: inline-block;
+width: 100%;
+}
+
+.search-input {
+width: 100%;
+padding: 10px 16px 10px 36px;
+border: 1px solid #803423;
+border-radius: 20px;
+font-size: 14px;
+outline: none;
+transition: all 0.3s ease;
+background-color: #F0CEC7;
+color: #2c1a16;
+}
+
+.search-input:focus {
+border-color: #5C2519;
+box-shadow: 0 0 0 3px rgba(92, 37, 25, 0.15);
+background-color: #ffffff;
+}
+
+.search-icon {
+position: absolute;
+left: 14px;
+top: 50%;
+transform: translateY(-50%);
+color: #803423;
+font-size: 14px;
+}
+
+/* Main Dashboard Layout */
+.main-container {
+max-width: 1400px;
+margin: 30px auto;
+padding: 0 20px;
+display: flex;
+gap: 24px;
+}
+
+/* Columnas */
+.left-column {
+width: 50%;
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+
+.right-column {
+width: 50%;
+}
+
+/* Acordeones (Paneles) */
+.panel-container {
+background: #ffffff;
+border-radius: 12px;
+border: 1px solid #e2b2a8;
+box-shadow: 0 4px 6px -1px rgba(92, 37, 25, 0.05);
+overflow: hidden;
+}
+
+.panel-header {
+background-color: #e2b2a8; /* Encabezado paneles */
+padding: 14px 20px;
+font-weight: 600;
+font-size: 15px;
+color: #2c1a16;
+border-bottom: 1px solid #803423;
+cursor: pointer;
+display: flex;
+justify-content: space-between;
+align-items: center;
+user-select: none;
+transition: background 0.2s ease;
+}
+
+.panel-header:hover {
+background-color: #d19a8f;
+}
+
+.panel-header .arrow {
+font-size: 12px;
+transition: transform 0.2s ease;
+}
+
+/* Estado colapsado del panel */
+.panel-container.collapsed .panel-body {
+display: none;
+}
+
+.panel-container.collapsed .panel-header {
+border-bottom: none;
+}
+
+.panel-container.collapsed .arrow {
+transform: rotate(-90deg);
+}
+
+.panel-body {
+padding: 24px;
+background: #ffffff;
+}
+
+/* Sistema de Pestañas (Tabs) */
+.tab-layout {
+display: flex;
+gap: 15px;
+}
+
+.tab-buttons-cell {
+display: flex;
+flex-direction: column;
+width: 110px;
+flex-shrink: 0;
+}
+
+.tab-btn {
+display: block;
+width: 100%;
+padding: 12px 14px;
+background-color: #F0CEC7;
+border: 1px solid #e2b2a8;
+border-right: none;
+margin-bottom: 6px;
+border-radius: 6px 0 0 6px;
+text-align: left;
+font-size: 13px;
+font-weight: 500;
+color: #5C2519;
+cursor: pointer;
+transition: all 0.2s ease;
+outline: none;
+}
+
+.tab-btn:hover {
+color: #ffffff;
+background-color: #803423;
+}
+
+.tab-btn.active {
+background-color: #ffffff;
+color: #5C2519;
+font-weight: 600;
+border-left: 3px solid #5C2519;
+width: calc(100% + 1px);
+margin-right: -1px;
+position: relative;
+z-index: 2;
+}
+
+.tab-content-cell {
+flex-grow: 1;
+background: #ffffff;
+border: 1px solid #e2b2a8;
+border-radius: 0 8px 8px 8px;
+padding: 20px;
+min-height: 320px;
+}
+
+/* Ocultar/Mostrar paneles de las pestañas */
+.tab-panel {
+display: none;
+}
+
+.tab-panel.active {
+display: block;
+}
+
+.content-title {
+font-size: 18px;
+color: #5C2519;
+margin-bottom: 12px;
+font-weight: 600;
+}
+
+.content-text {
+font-size: 14px;
+color: #3d2520;
+margin-bottom: 15px;
+line-height: 1.6;
+}
+
+.content-img {
+max-width: 100%;
+height: auto;
+border-radius: 8px;
+border: 1px solid #803423;
+margin-top: 10px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
+
+/* Evaluación / Cuestionario */
+.quiz-question {
+margin-bottom: 20px;
+padding-bottom: 15px;
+border-bottom: 1px dashed #e2b2a8;
+}
+
+.quiz-question:last-child {
+border-bottom: none;
+margin-bottom: 0;
+}
+
+.question-title {
+font-size: 14px;
+font-weight: 600;
+color: #2c1a16;
+margin-bottom: 8px;
+}
+
+.quiz-options {
+list-style: none;
+padding-left: 0;
+}
+
+.quiz-options li {
+font-size: 13px;
+padding: 8px 12px;
+background-color: #F0CEC7;
+border: 1px solid #e2b2a8;
+border-radius: 6px;
+margin-bottom: 6px;
+cursor: pointer;
+transition: all 0.2s ease;
+color: #2c1a16;
+}
+
+.quiz-options li:hover {
+background-color: #e2b2a8;
+}
+
+.quiz-options li.correct {
+background-color: #d1fae5;
+border-color: #34d399;
+color: #065f46;
+font-weight: 500;
+}
+
+.quiz-options li.incorrect {
+background-color: #fee2e2;
+border-color: #f87171;
+color: #991b1b;
+}
+
+/* Links adicionales */
+.resource-links {
+list-style: none;
+padding-left: 0;
+}
+
+.resource-links li {
+margin-bottom: 10px;
+}
+
+.resource-links a {
+color: #5C2519;
+text-decoration: none;
+font-size: 14px;
+font-weight: 500;
+}
+
+.resource-links a:hover {
+text-decoration: underline;
+color: #803423;
+}
+
+/* Right Side: Media & Summaries */
+.section-title {
+font-size: 22px;
+color: #5C2519;
+margin-bottom: 14px;
+font-weight: 600;
+padding-bottom: 6px;
+border-bottom: 2px solid #e2b2a8;
+}
+
+/* Contenedor de la imagen general del metabolismo */
+.image-container {
+border-radius: 12px;
+overflow: hidden;
+box-shadow: 0 10px 15px -3px rgba(92, 37, 25, 0.1);
+margin-bottom: 30px;
+border: 1px solid #e2b2a8;
+background-color: #ffffff;
+padding: 10px;
+}
+
+.image-container img {
+width: 100%;
+height: auto;
+display: block;
+border-radius: 8px;
+}
+
+/* Summary Card */
+.summary-card {
+background-color: #ffffff;
+border-radius: 12px;
+border: 1px solid #e2b2a8;
+padding: 24px;
+box-shadow: 0 4px 6px -1px rgba(92, 37, 25, 0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+.main-container {
+flex-direction: column;
+padding: 0 15px;
+}
+
+.left-column, .right-column {
+width: 100%;
+}
+
+.header-section {
+padding: 20px;
+}
+}
+
+@media (max-width: 600px) {
+.brand-title {
+font-size: 32px;
+}
+
+.search-cell {
+width: 100%;
+}
+
+.tab-layout {
+flex-direction: column;
+}
+
+.tab-buttons-cell {
+flex-direction: row;
+width: 100%;
+border-bottom: 1px solid #e2b2a8;
+margin-bottom: 10px;
+}
+
+.tab-btn {
+border-radius: 6px 6px 0 0;
+border: 1px solid #e2b2a8;
+border-bottom: none;
+margin-bottom: 0;
+margin-right: 4px;
+text-align: center;
+font-size: 12px;
+padding: 8px;
+}
+
+.tab-btn.active {
+width: auto;
+height: calc(100% + 1px);
+border-left: 1px solid #e2b2a8;
+border-top: 3px solid #5C2519;
+}
+
+.tab-content-cell {
+border-radius: 0 0 8px 8px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+<div class="nav-links">
+<a href="index.html">Index</a>
+<a href="mitosis.html">Mitosis</a>
+<a href="ciclocelular.html">Ciclo celular</a>
+<a href="metabolismo.html" class="active">Metabolismo</a>
+<a href="respiraciones.html">Respiración</a>
+<a href="fotosintesis.html">Fotosíntesis</a>
+</div>
+</div>
+
+<div class="header-section">
+<div class="brand-cell">
+<h1 class="brand-title">BioSintax</h1>
+</div>
+<div class="search-cell">
+<div class="search-wrapper">
+<span class="search-icon">🔍</span>
+<input type="text" class="search-input" placeholder="Buscar concepto...">
+</div>
+</div>
+</div>
+
+<div class="main-container">
+
+<div class="left-column">
+
+<div class="panel-container" id="panel-1">
+<div class="panel-header" role="button" tabindex="0">
+<span>¿De qué trata el Metabolismo Celular?</span>
+<span class="arrow">▼</span>
+</div>
+<div class="panel-body">
+
+<div class="tab-layout">
+<div class="tab-buttons-cell">
+<button class="tab-btn active" data-target="tab-content-1">Definición</button>
+<button class="tab-btn" data-target="tab-content-2">Rutas</button>
+<button class="tab-btn" data-target="tab-content-3">El ATP</button>
+</div>
+
+<div class="tab-content-cell">
+<div id="tab-content-1" class="tab-panel active">
+<h3 class="content-title">Introducción al Metabolismo</h3>
+<p class="content-text">
+El metabolismo es el conjunto de todas las reacciones químicas que ocurren dentro de una célula u organismo vivo. Estos procesos interconectados permiten a las células obtener energía de su entorno, sintetizar componentes moleculares esenciales y mantener la homeostasis necesaria para la vida.
+</p>
+</div>
+
+<div id="tab-content-2" class="tab-panel">
+<h3 class="content-title">Anabolismo vs. Catabolismo</h3>
+<p class="content-text">
+El mapa metabólico se divide en dos grandes vertientes complementarias:
+<br>• <strong>Catabolismo:</strong> Rutas de degradación donde moléculas complejas (como la glucosa) se rompen en sustancias más simples, liberando la energía química almacenada.
+<br>• <strong>Anabolismo:</strong> Rutas biosintéticas que consumen energía para construir moléculas complejas y estructuras celulares a partir de precursores simples.
+</p>
+</div>
+
+<div id="tab-content-3" class="tab-panel">
+<h3 class="content-title">La Moneda Energética Celular</h3>
+<p class="content-text">
+El Adenosín Trifosfato (ATP) actúa como el intermediario energético universal. Captura la energía de los procesos catabólicos y la transfiere directamente a las actividades metabólicas anabólicas y mecánicas que la requieran.
+</p>
+<img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/ATPMonedaEnergetica.png?_=20130220213329" alt="Molécula de ATP como Moneda Energética" class="content-img" style="max-height: 180px;">
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="panel-container collapsed" id="panel-2">
+<div class="panel-header" role="button" tabindex="0">
+<span>EVALUACIÓN</span>
+<span class="arrow">▼</span>
+</div>
+<div class="panel-body">
+<p class="content-text" style="font-weight: 500;">¡Haz clic sobre las opciones para comprobar tus respuestas!</p>
+
+<div class="quiz-question">
+<p class="question-title">1. ¿Cómo se denominan las reacciones metabólicas encargadas de sintetizar macromoléculas complejas a partir de moléculas simples con gasto de energía?</p>
+<ul class="quiz-options">
+<li data-correct="false">Catabolismo</li>
+<li data-correct="true">Anabolismo</li>
+<li data-correct="false">Glucólisis</li>
+<li data-correct="false">Fermentación</li>
+</ul>
+</div>
+
+<div class="quiz-question">
+<p class="question-title">2. ¿Por qué se considera al ATP la "moneda energética" de la célula?</p>
+<ul class="quiz-options">
+<li data-correct="false">Porque almacena información genética a largo plazo.</li>
+<li data-correct="false">Porque acelera las reacciones químicas sin consumirse.</li>
+<li data-correct="true">Porque almacena energía en sus enlaces de fosfato de fácil acceso.</li>
+<li data-correct="false">Porque transporta oxígeno a través de la membrana celular.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="panel-container collapsed" id="panel-3">
+<div class="panel-header" role="button" tabindex="0">
+<span>INFORMACIÓN ADICIONAL</span>
+<span class="arrow">▼</span>
+</div>
+<div class="panel-body">
+<p class="content-text">Explora fuentes científicas recomendadas para profundizar tus conocimientos sobre el metabolismo:</p>
+<ul class="resource-links">
+<li>
+<a href="https://es.khanacademy.org/science/ap-biology/cellular-energetics/cellular-energetics-metabolism/a/overview-of-metabolism" target="_blank">🔗 Khan Academy - Introducción al Metabolismo Celular</a>
+</li>
+<li>
+<a href="https://es.khanacademy.org/science/ap-biology/cellular-energetics/cellular-energetics-metabolism/a/atp" target="_blank">🔗 Khan Academy - El ATP y las Reacciones Energéticas</a>
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div class="right-column">
+
+<h2 class="section-title">Esquema general</h2>
+<div class="image-container">
+<img src="https://i.ytimg.com/vi/yCOe8xTIUGQ/maxresdefault.jpg" alt="Esquema de Metabolismo Celular (Anabolismo y Catabolismo)">
+</div>
+
+<h2 class="section-title">Resumen</h2>
+<div class="summary-card">
+<p class="content-text" style="margin-bottom: 0;">
+El metabolismo celular coordina los procesos fundamentales para sostener la vida, equilibrando la degradación catabólica (extracción de energía) y la construcción anabólica (crecimiento y reparación celular). En este entramado bioquímico, el ATP funciona como un acoplador indispensable: sus enlaces fosfato altamente energéticos capturan la energía de los nutrientes oxidados y la liberan selectivamente en procesos que de otro modo no podrían ocurrir espontáneamente.
+</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+// 1. Intercambio de Pestañas (Tabs)
+const tabButtons = document.querySelectorAll('.tab-btn');
+tabButtons.forEach(button => {
+button.addEventListener('click', (e) => {
+const container = e.currentTarget.closest('.tab-layout');
+const targetId = e.currentTarget.getAttribute('data-target');
+
+// Desactivar botones y paneles activos dentro de este bloque
+container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+container.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+
+// Activar el actual
+e.currentTarget.classList.add('active');
+container.querySelector(`#${targetId}`).classList.add('active');
+});
+});
+
+// 2. Colapso de Acordeones (Paneles)
+const panelHeaders = document.querySelectorAll('.panel-header');
+panelHeaders.forEach(header => {
+header.addEventListener('click', (e) => {
+const panel = e.currentTarget.closest('.panel-container');
+panel.classList.toggle('collapsed');
+});
+});
+
+// 3. Evaluación Interactiva (Quiz)
+const quizOptions = document.querySelectorAll('.quiz-options li');
+quizOptions.forEach(option => {
+option.addEventListener('click', (e) => {
+const parentList = e.currentTarget.parentElement;
+const isCorrect = e.currentTarget.getAttribute('data-correct') === 'true';
+
+// Limpiar clases anteriores en la pregunta actual
+parentList.querySelectorAll('li').forEach(li => li.classList.remove('correct', 'incorrect'));
+
+// Aplicar el color correspondiente según la respuesta
+if (isCorrect) {
+e.currentTarget.classList.add('correct');
+} else {
+e.currentTarget.classList.add('incorrect');
+}
+});
+});
+});
+</script>
+
+</body>
+</html>

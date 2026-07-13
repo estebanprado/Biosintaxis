@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioSintax - Plataforma de Aprendizaje Biológico</title>
+    <link rel="stylesheet" href="css/restilos.css">
+</head>
+<body>
+
+    <!-- Navegación superior basada en el mockup -->
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="index.html">Index</a>
+            <a href="mitosis.html">Mitosis</a>
+            <a href="ciclocelular.html">Ciclo celular</a>
+            <a href="metabolismo.html">Metabolismo</a>
+            <a href="respiraciones.html" class="active">Respiración</a>
+            <a href="fotosintesis.html">Fotosíntesis</a>
+        </div>
+    </div>
+
+    <!-- Encabezado con Título y Buscador -->
+    <div class="header-section">
+        <div class="brand-cell">
+            <h1 class="brand-title">Respiraciones</h1>
+        </div>
+        <div class="search-cell">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Buscar concepto...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal Dashboard -->
+    <div class="main-container">
+        
+        <!-- Columna Izquierda: Paneles y Pestañas Interactivas -->
+        <div class="left-column">
+            
+            <!-- Panel 1 (Activo) -->
+            <div class="panel-container" id="panel-1">
+                <div class="panel-header" onclick="togglePanel('panel-1')">
+                    <span>Panel 1: Respiraciones</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    
+                    <div class="tab-layout">
+                        <!-- Pestañas Verticales Izquierdas -->
+                        <div class="tab-buttons-cell">
+                            <button class="tab-btn active" onclick="openTab(event, 'tab-content-1')">Aeróbica</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-content-2')">Anaeróbica</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-content-3')">Comparación</button>
+                        </div>
+                        
+                        <!-- Contenedor de Contenidos del Tab -->
+                        <div class="tab-content-cell">
+                            <div id="tab-content-1" class="tab-panel active">
+                                <h3 class="content-title">Respiración aeróbica</h3>
+                                <p class="content-text">
+                                   La respiración aerobia es un proceso metabólico celular en el que la glucosa se oxida por completo para transformarse en energía química utilizable en forma de ATP, utilizando el oxígeno molecular (O₂) como aceptor final de electrones. A nivel molecular, no es solo la acción de respirar aire, sino una serie de reacciones químicas encadenadas (glucólisis, ciclo de Krebs y cadena de transporte de electrones) que extraen la energía almacenada en los enlaces de los nutrientes. Por su alta eficiencia, este proceso produce entre 36 y 38 moléculas de ATP por cada molécula de glucosa.
+                                </p>
+                                <div class="content-image-placeholder">
+                                    <img src="imagenes/aerobica.png" style="width:100%; height:100%; object-fit:cover;">
+                                </div>
+                            </div>
+
+                            <div id="tab-content-2" class="tab-panel">
+                                <h3 class="content-title">Respiración anaeróbica (fermentación)</h3>
+                                <p class="content-text">
+                                    Cuando no hay oxígeno disponible, la célula recurre a la respiración anaeróbica o fermentación. Tras la glucólisis, el piruvato no entra a la mitocondria, sino que se transforma directamente en el citoplasma, regenerando NAD⁺ para que la glucólisis pueda continuar. Existen dos tipos principales: la <strong>fermentación láctica</strong>, que convierte el piruvato en ácido láctico (ocurre en nuestras células musculares durante el ejercicio intenso y en bacterias usadas para hacer yogur o queso), y la <strong>fermentación alcohólica</strong>, que lo convierte en etanol y CO₂ (realizada por levaduras en la elaboración de pan, cerveza y vino). Al no usar la cadena de transporte de electrones, este proceso es mucho menos eficiente: solo produce 2 ATP por molécula de glucosa.
+                                </p>
+                                <div class="content-image-placeholder">
+                                    <img src="imagenes/anaerobica.svg" style="width:100%; height:100%; object-fit:contain;">
+                                </div>
+                            </div>
+
+                            <div id="tab-content-3" class="tab-panel">
+                                <h3 class="content-title">Comparación e importancia biológica</h3>
+                                <p class="content-text">
+                                    La diferencia clave entre ambas vías es la eficiencia energética: la respiración aeróbica libera hasta 18 veces más ATP que la anaeróbica, ya que aprovecha por completo la energía de la glucosa mediante el ciclo de Krebs y la fosforilación oxidativa. Sin embargo, la fermentación tiene una ventaja: es mucho más rápida, lo que permite a nuestras células musculares obtener energía casi instantánea durante esfuerzos breves e intensos, aunque a costa de acumular ácido láctico (causante de la fatiga muscular). A escala industrial, la fermentación anaeróbica es la base de alimentos y bebidas como el pan, el yogur, el queso, la cerveza y el vino.
+                                </p>
+                                <div class="content-image-placeholder">
+                                    <img src="imagenes/comparacion.svg" style="width:100%; height:100%; object-fit:contain;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Panel 2 (Colapsado por defecto) -->
+            <div class="panel-container collapsed" id="panel-2">
+                <div class="panel-header" onclick="togglePanel('panel-2')">
+                    <span>Panel 2: Evaluaciones Relacionadas</span>
+                    <span class="arrow">▼</span>
+                </div>
+               <div class="panel-body">
+                    <p class="content-text" style="font-weight: 500;">¡Haz clic sobre las opciones para comprobar tus respuestas!</p>
+                    <div class="quiz-question">
+                        <p class="question-title">1. ¿Cuántas moléculas de ATP produce la respiración aeróbica por cada glucosa?</p>
+                        <ul class="quiz-options">
+                            <li onclick="checkAnswer(this, false)">24-34 ATP</li>
+                            <li onclick="checkAnswer(this, true)">36-38 ATP</li>
+                            <li onclick="checkAnswer(this, false)">1 ATP</li>
+                            <li onclick="checkAnswer(this, false)">1000 ATP</li>
+                        </ul>
+                    </div>
+
+                    <div class="quiz-question">
+                        <p class="question-title">2. ¿Qué producto genera la fermentación láctica en nuestros músculos?</p>
+                        <ul class="quiz-options">
+                            <li onclick="checkAnswer(this, false)">Dioxido de carbono</li>
+                            <li onclick="checkAnswer(this, false)">Etanol</li>
+                            <li onclick="checkAnswer(this, true)">Ácido Lático</li>
+                            <li onclick="checkAnswer(this, false)">Oxígeno</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 3 (Colapsado por defecto) -->
+            <div class="panel-container collapsed" id="panel-3">
+                <div class="panel-header" onclick="togglePanel('panel-3')">
+                    <span>Panel 3: Recursos Adicionales</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="panel-body">
+                    <p class="content-text">Lecturas complementarias para profundizar en el tema:</p>
+                    <ul class="resource-list">
+                        <li><a href="https://espanol.libretexts.org/Biologia/Biologia_introductoria_y_general/Libro:_Biolog%C3%ADa_general_(Boundless)/07:_Respiraci%C3%B3n_celular/7.14:_Metabolismo_sin_Ox%C3%ADgeno_-_Respiraci%C3%B3n_celular_anaer%C3%B3bica" target="_blank" rel="noopener">LibreTexts: Metabolismo sin oxígeno</a></li>
+                        <li><a href="https://es.khanacademy.org/science/high-school-biology/hs-energy-and-transport/hs-cellular-respiration/a/hs-cellular-respiration-review" target="_blank" rel="noopener">Khan Academy: Repaso de la respiración celular</a></li>
+                        <li><a href="https://www.studysmarter.es/resumenes/biologia/celulas/respiracion-anaerobica/" target="_blank" rel="noopener">StudySmarter: Respiración anaeróbica</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Columna Derecha: Video General y Resumen -->
+        <div class="right-column">
+            
+            <!-- Sección de Video -->
+            <h2 class="section-title">Video general</h2>
+            <div class="video-container">
+                <div class="video-embed">
+                    <iframe width="100%" height="320" src="https://www.youtube-nocookie.com/embed/ETNd0Ao6YJQ" title="La respiración celular aeróbica y generación de ATP - Educatina" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+            <p class="video-fallback-link">
+                ¿No carga el video? <a href="https://www.youtube.com/watch?v=ETNd0Ao6YJQ" target="_blank" rel="noopener">Ábrelo directamente en YouTube</a>.
+            </p>
+
+            <!-- Sección de Resumen -->
+            <h2 class="section-title">Resumen</h2>
+            <div class="summary-card">
+                <p class="content-text">
+                    La respiración celular es el conjunto de reacciones que permiten a las células obtener energía (ATP) a partir de la glucosa. Existen dos rutas principales:
+                </p>
+                <ul class="summary-list">
+                    <li><strong>Respiración aeróbica:</strong> requiere oxígeno, ocurre en la mitocondria y produce 36-38 ATP por glucosa.</li>
+                    <li><strong>Respiración anaeróbica (fermentación):</strong> ocurre sin oxígeno, en el citoplasma, y solo produce 2 ATP por glucosa.</li>
+                    <li>La fermentación láctica genera ácido láctico (músculos, yogur, queso); la fermentación alcohólica genera etanol y CO₂ (pan, cerveza, vino).</li>
+                    <li>Ambas rutas comparten el primer paso: la glucólisis.</li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Scripts de Interactividad Real -->
+    <script>
+        // Cambiar dinámicamente entre pestañas (Tabs)
+        function openTab(evt, tabId) {
+            const panelBody = evt.currentTarget.closest('.panel-body');
+            
+            const tabPanels = panelBody.querySelectorAll('.tab-panel');
+            tabPanels.forEach(panel => panel.classList.remove('active'));
+
+            const tabButtons = panelBody.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+
+            panelBody.querySelector('#' + tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Abrir/Cerrar los acordeones (Paneles)
+        function togglePanel(panelId) {
+            const currentPanel = document.getElementById(panelId);
+            currentPanel.classList.toggle('collapsed');
+        }
+
+        // Validar respuestas del quiz interactivo (Panel 2)
+        function checkAnswer(selected, isCorrect) {
+            const options = selected.parentElement.querySelectorAll('li');
+
+            // Evitar volver a responder la misma pregunta
+            const yaRespondida = selected.parentElement.querySelector('.correct, .incorrect');
+            if (yaRespondida) return;
+
+            selected.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+            if (!isCorrect) {
+                // Resaltar cuál era la opción correcta
+                options.forEach(li => {
+                    if (li.getAttribute('onclick').includes('true')) {
+                        li.classList.add('correct');
+                    }
+                });
+            }
+
+            options.forEach(li => li.style.pointerEvents = 'none');
+        }
+    </script>
+
+</body>
+</html>
